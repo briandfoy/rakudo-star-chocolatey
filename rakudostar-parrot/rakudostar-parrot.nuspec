@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>rakudostar</id>
+    <title>Rakudo * on ParrotVM</title>
+    <version>2014.12.1</version>
+    <authors>Rakudo Star Team</authors>
+    <owners>Jake Russo</owners>
+    <summary>This is Rakudo Star (on ParrotVM), a useful, usable Perl 6 distribution for "early adopters".</summary>
+    <description>A compiler for the Perl 6 programming language.
+
+The Rakudo Star distribution (aka Rakudo *) combines a Rakudo Perl 6 compiler with additional resources including a selection of modules.
+
+Rakudo Star is meant for those who wish to explore what’s possible with Rakudo Perl 6 and provide feedback on what works, what doesn’t, and what else they would like to see included in the Rakudo Star distribution.</description>
+    <projectUrl>http://rakudo.org</projectUrl>
+    <tags>perl perl6 rakudo dynamic programming language sdk parrotvm</tags>
+    <copyright>Rakudo Star Team</copyright>
+    <licenseUrl>https://github.com/rakudo/star/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!-- Important note about https://cdn.rawgit.com: Files are cached permanently after the first request. Use commit URLs when updating the icon. -->
+    <iconUrl>http://cdn.rawgit.com/Kurremkarmerruk/chocolatey-packages/rakudostar-parrot/master/icons/rakudo.png</iconUrl>
+    <dependencies>
+      <dependency id="chocolatey" version="0.9.8.23" />
+    </dependencies>
+    <releaseNotes>Some of the new compiler features added to this release include:
+
+- $str ~~ s/// now returns a Match or list of Matches (incompatible change)
+- Supply.lines/words and IO::Handle.words implemented
+- &indir for scoped directory manipulations
+- Various performance improvements
+- Method 'for' as an alias for 'map'. Map will stop flattening the list eventually, 'for' remains as it is now
+- Method 'unique' as a successor for 'uniq'
+- Introduce IO::Handle.slurp-rest for slurping rest from the handle
+- Fix tie-breaking issues with longest literal matching
+- Method FALLBACK implemented
+- $\*DISTRO and $\*KERNEL updated ($*DISTRO now actually report the Linux dist)
+- Added Metamodel::Primitives, to open up more meta-programming possibilities
+  (publishing method caches, completely custom meta-objects, etc.)
+
+Changes to modules included in Rakudo Star:
+
+- [Bailador](https://github.com/tadzik/Bailador) now binds to all interfaces by default.
+- [panda](https://github.com/tadzik/panda) reads package information from http://ecosystem-api.p6c.org/ as opposed to http://feather.perl6.nl:3000/ .
+- panda executable now works under PowerShell.
+- panda returns correct exit status if it fails.
+- panda now ignores POD while determining module dependencies.
+- panda now can [upload test results to testers.perl6.org server](http://perl6advent.wordpress.com/2014/12/21/day-21-community-smoke-testing/).
+- panda now displays help with correct command descriptions when using `--help`.
+- panda has a `smoke` option to download and test all Perl 6 modules.
+- panda can now use `look` option in order to download modules without doing anything else.
+- [HTTP::Easy](https://github.com/supernovus/perl6-http-easy) has received a few algorithm optimizations that made it faster.
+- HTTP::Easy now binds to all interfaces by default when acting as a web server.
+- [ufo](https://github.com/masak/ufo) now leaves `.pm` and `.pm6` in module names.
+- [NativeCall](https://github.com/jnthn/zavolaj) now parses library names like `libfoo-2.0` and `libbar.so.3.3.0`.
+
+New in ParrotVM version 6.9.0:
+
+    - Core
+        + Changed behavior with illegal escape sequences, GH #1103. Do not silently
+          skip the \ anymore, throw an EXCEPTION_INVALID_CHARACTER error with
+          "Illegal escape sequence \o in 'string\o'".
+        + Add platform encoding functions for darwin, FreeBSD, OpenBSD and NetBSD,
+          fixing rakudo problems with UTF-8 locales. #1092
+        + Enable trap op (int3) on x86_64 also
+        + Add const to env api STRING args
+        + Do no pre-allocate 256 IO tables for the standard handles, only 3. #1093
+        + Renamed ops2c to parrot-ops2c. Get the new name if exists in config
+          key ops2c. #900
+        + Reenable parrot -t [flags] traceflags to enable the flags 2 find_method and
+          4 invoke/retcc/yield again.
+        + Enable >2GB RAM on darwin also. #268
+        + Fix crash with parrot -d8 DEBUG_IMC dump_instructions
+        + Fix sprintf width count for unicode strings. #956
+        + Fix sprintf width for NaN/Inf/-Inf [GH #1099/perl6 RT#116280]
+        + Optimize utf8_substr. Do not use the slow utf8 iterator.
+        + Regenerated and fixed the iso_8859_1_typetable. Add \x2028, \x2029
+          and \v to be of cclass newline. [GH #1086, perl6 RT #122341].
+          Several chars 160..191 are not in the [[:punct:]] class anymore.
+          Removed defunct Parrot_ascii_typetable, unused since 2010.
+        + Protect callmethod from an empty object, missed by fixup_subs
+          immediate. #1024
+        + Add Couroutine reset and autoreset methods. #564
+        + Add -t8 trace flag for Coroutine states
+        + Disabled trace flags -t4 and -t8 with --optimize. #1105
+        + Harmonize parrot usage messages
+    - Build
+        + Fix all -Wshadow instances
+        + Added bootstrap-tables make target
+        + Configure options consistency: --{en,dis}able- for shared, rpath,
+          threads, --with{,out}- for: llvm pcre ... + threads. [GH #1101]
+        + Deprecated --parrot_is_shared in favor of --enable-shared. [GH #1101]
+        + Change default of the config key debugging from 1 to 0, i.e. you need to
+          provide now --debugging[=flags] for debugging. [GH #1099]
+        + Enable --disable-shared (or --parrot_is_shared=0) to link against static
+          libparrot [GH #1101]
+    - Documentation
+        + Add missing manpages for pbc_disassemble, pbc_dump, pbc_merge
+        + Improved src/string/encoding/tables.c pod.
+    - Tests
+        + Run fulltests with the runcore=fast,-O1,-O2 fast, without -D040, --gc-debug
+          [GH #1086]
+        + Added tests for LexInfo.declare_lex_preg and .lex quoting roundtrips
+          [GH #1095]
+        + Simplify smolder resend usage
+        + Fix mingw issues with \r\n
+        + Updated the missing native_pbc 64-bit big-endian files on mips64 qemu.</releaseNotes>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
