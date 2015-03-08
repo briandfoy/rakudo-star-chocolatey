@@ -3,7 +3,7 @@
   <metadata>
     <id>rakudostar</id>
     <title>Rakudo *</title>
-    <version>2014.12.1</version>
+    <version>2015.02</version>
     <authors>Rakudo Star Team</authors>
     <owners>Jake Russo</owners>
     <summary>This is Rakudo Star, a useful, usable Perl 6 distribution for "early adopters".</summary>
@@ -23,7 +23,6 @@ This chocolatey package defaults to the MoarVM.</description>
     <iconUrl>http://cdn.rawgit.com/Kurremkarmerruk/chocolatey-packages/rakudostar/master/icons/rakudo.png</iconUrl>
     <dependencies>
         <!-- <dependency id="chocolatey" version="0.9.8.23" /> -->
-        <!-- <dependency id="rakudostar-moar" version="[2014.12.1]" /> -->
     </dependencies>
     <releaseNotes>Some of the new compiler features added to this release include:
 
