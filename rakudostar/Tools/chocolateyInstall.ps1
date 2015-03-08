@@ -1,6 +1,6 @@
 ﻿# Many thanks to Brackets ps1 file developers for much of this code.
 $packageName = 'rakudostar'
-$version = '2014.12.1'
+$version = '2015.02'
 
 try {
 
@@ -10,7 +10,7 @@ try {
     PackageName = $packageName;
     FileType = 'msi';
     SilentArgs = '/quiet';
-    Url = 'http://rakudo.org/downloads/star/rakudo-star-2014.12.1-moar.msi';
+    Url = 'http://rakudo.org/downloads/star/rakudo-star-2015.02.msi';
   }
   write-host "Checking if 'Rakudo Star $rakudoRegistryVersion' is already installed..."
   $alreadyInstalled = Get-WmiObject -Class Win32_Product | Where-Object {($_.Name -eq "Rakudo Star $rakudoRegistryVersion")}
