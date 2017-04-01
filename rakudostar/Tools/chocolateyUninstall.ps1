@@ -1,5 +1,5 @@
 $packageName = 'rakudostar'
-$version = '2015.02'
+$version = '2017.01'
 
 try {
     $rakudoRegistryVersion = $version -replace '^(\d{4}\.\d+)(\.\d+)?', '$1'

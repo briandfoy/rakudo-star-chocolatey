@@ -3,7 +3,7 @@
   <metadata>
     <id>rakudostar</id>
     <title>Rakudo *</title>
-    <version>2015.02</version>
+    <version>2017.01</version>
     <authors>Rakudo Star Team</authors>
     <owners>Jake Russo</owners>
     <summary>This is Rakudo Star, a useful, usable Perl 6 distribution for "early adopters".</summary>
@@ -24,36 +24,50 @@ This chocolatey package defaults to the MoarVM.</description>
     <dependencies>
         <!-- <dependency id="chocolatey" version="0.9.8.23" /> -->
     </dependencies>
-    <releaseNotes>Some of the new compiler features added to this release include:
+    <releaseNotes>This is the sixth post-Christmas (production) release of Rakudo Star and implements Perl v6.c. It comes with support for the MoarVM backend (all module tests pass on supported platforms).
 
-- $str ~~ s/// now returns a Match or list of Matches (incompatible change)
-- Supply.lines/words and IO::Handle.words implemented
-- indir for scoped directory manipulations
-- Various performance improvements
-- Method 'for' as an alias for 'map'. Map will stop flattening the list eventually, 'for' remains as it is now
-- Method 'unique' as a successor for 'uniq'
-- Introduce IO::Handle.slurp-rest for slurping rest from the handle
-- Fix tie-breaking issues with longest literal matching
-- Method FALLBACK implemented
-- $\*DISTRO and $\*KERNEL updated ($*DISTRO now actually report the Linux dist)
-- Added Metamodel::Primitives, to open up more meta-programming possibilities
-  (publishing method caches, completely custom meta-objects, etc.)
+This is the first Rakudo Star release to include “zef” as module installer. “panda” is to be shortly replaced by “zef” and will be removed in the near future.
 
-Changes to modules included in Rakudo Star:
+It’s hoped to produce quarterly Rakudo Star releases during 2017 with 2017.04 (April), 2017.07 (July) and 2017.10 (October) to follow.
 
-- [Bailador](https://github.com/tadzik/Bailador) now binds to all interfaces by default.
-- [panda](https://github.com/tadzik/panda) reads package information from http://ecosystem-api.p6c.org/ as opposed to http://feather.perl6.nl:3000/ .
-- panda executable now works under PowerShell.
-- panda returns correct exit status if it fails.
-- panda now ignores POD while determining module dependencies.
-- panda now can [upload test results to testers.perl6.org server](http://perl6advent.wordpress.com/2014/12/21/day-21-community-smoke-testing/).
-- panda now displays help with correct command descriptions when using `--help`.
-- panda has a `smoke` option to download and test all Perl 6 modules.
-- panda can now use `look` option in order to download modules without doing anything else.
-- [HTTP::Easy](https://github.com/supernovus/perl6-http-easy) has received a few algorithm optimizations that made it faster.
-- HTTP::Easy now binds to all interfaces by default when acting as a web server.
-- [ufo](https://github.com/masak/ufo) now leaves `.pm` and `.pm6` in module names.
-- [NativeCall](https://github.com/jnthn/zavolaj) now parses library names like `libfoo-2.0` and `libbar.so.3.3.0`.
+Please note that this release of Rakudo Star is not fully functional with the JVM backend from the Rakudo compiler. Please use the MoarVM backend only.
+
+In the Perl 6 world, we make a distinction between the language (“Perl 6”) and specific implementations of the language such as “Rakudo Perl”.
+
+This Star release includes [release 2017.01] of the [Rakudo Perl 6 compiler], version 2017.01 of [MoarVM], plus various modules, documentation, and other resources collected from the Perl 6 community.
+
+The Rakudo compiler changes since the last Rakudo Star release of 2016.11 are now listed in “2016.12.md” and “2017.01.md” under the “rakudo/docs/announce” directory of the source distribution.
+
+Notable changes in modules shipped with Rakudo Star:
+
+- DBIish: Pg: TypeConverter post-merge cleanup
+- Linenoise: Remove dependency on Native::Resources
+- Pod-To-HTML: Bump version for #22 fix
+- Terminal-ANSIColor: Drop ‘nqp’ dependency
+- doc: Too many to list
+- json: Fix parsing of string literals with a leading combining character.
+- json\_fast: bump version since we now escape null bytes
+- panda: modified to warn of its removal in the short term
+- perl6-http-easy: Several pull requests merged
+- perl6-lwp-simple: Tweak tests to work with TAP::Harness
+- perl6-pod-to-bigpage: bump version
+- test-mock: Bump version.
+- zef: imported
+
+There are some key features of Perl 6 that Rakudo Star does not yet handle appropriately, although they will appear in upcoming releases.
+Some of the not-quite-there features include:
+
+- advanced macros
+- non-blocking I/O (in progress)
+- some bits of Synopsis 9 and 11
+
+There is an online resource at &lt;http://perl6.org/compilers/features&gt; that lists the known implemented and missing features of Rakudo’s backends and other Perl 6 implementations.
+
+In many places we’ve tried to make Rakudo smart enough to inform the programmer that a given feature isn’t implemented, but there are many that we’ve missed. Bug reports about missing and broken features are welcomed at &lt;rakudobug@perl.org&gt;.
+
+See &lt;http://perl6.org/&gt; for links to much more information about Perl 6, including documentation, example code, tutorials, presentations, reference materials, design documents, and other supporting resources. Some Perl 6 tutorials are available under the “docs” directory in the release tarball.
+
+The development team thanks all of the contributors and sponsors for making Rakudo Star possible. If you would like to contribute, see &lt;http://rakudo.org/how-to-help&gt;, ask on the &lt;perl6-compiler@perl.org&gt; mailing list, or join us on IRC #perl6 on freenode.
 </releaseNotes>
   </metadata>
   <files>
