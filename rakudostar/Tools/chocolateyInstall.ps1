@@ -7,9 +7,9 @@ try {
   $rakudoRegistryVersion = $version -replace '^(\d{4}\.\d+)(\.\d+)?', '$1'
 
   $params = @{
-    PackageName = $packageName;
-    FileType = 'msi';
-    SilentArgs = '/quiet';
+    PackageName    = $packageName;
+    FileType       = 'msi';
+    SilentArgs     = '/quiet';
     Url            = 'http://rakudo.org/downloads/star/rakudo-star-2017.01-x86_64%20(JIT).msi';
     checksum       = '97e38fc510eb591b6f4a0a76d64ded04ed5c963f1cdb6cfabb72b916ae9fe042'
     checksumType   = 'sha256'
