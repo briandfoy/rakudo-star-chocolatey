@@ -19,8 +19,7 @@ This chocolatey package defaults to the MoarVM.</description>
     <copyright>Rakudo Star Team</copyright>
     <licenseUrl>https://github.com/rakudo/star/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <!-- Important note about https://cdn.rawgit.com: Files are cached permanently after the first request. Use commit URLs when updating the icon. -->
-    <iconUrl>http://cdn.rawgit.com/Kurremkarmerruk/chocolatey-packages/rakudostar/master/icons/rakudo.png</iconUrl>
+    <iconUrl>https://github.com/briandfoy/chocolatey-packages/blob/master/rakudostar/rakudo.png?raw=true</iconUrl>
     <dependencies>
         <!-- <dependency id="chocolatey" version="0.9.8.23" /> -->
     </dependencies>
