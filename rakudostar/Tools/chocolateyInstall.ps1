@@ -11,6 +11,8 @@ try {
     FileType = 'msi';
     SilentArgs = '/quiet';
     Url = 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi';
+    checksum       = '97e38fc510eb591b6f4a0a76d64ded04ed5c963f1cdb6cfabb72b916ae9fe042'
+    checksumType   = 'sha256'
   }
   write-host "Checking if 'Rakudo Star $rakudoRegistryVersion' is already installed..."
   $alreadyInstalled = Get-WmiObject -Class Win32_Product | Where-Object {($_.Name -eq "Rakudo Star $rakudoRegistryVersion")}
