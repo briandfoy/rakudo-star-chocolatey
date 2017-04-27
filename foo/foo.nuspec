@@ -45,7 +45,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectSourceUrl>https://github.com/rakudo/star/blob/master/LICENSE</projectSourceUrl>
     <docsUrl>https://doc.perl6.org/</docsUrl>
-    <mailingListUrl>perl6 mailing lists</mailingListUrl>
+    <mailingListUrl>https://perl6.org/archive/lists/</mailingListUrl>
     <!--<bugTrackerUrl></bugTrackerUrl>-->
     <tags>rakudostar admin</tags>
     <summary>This is Rakudo Star, a useful, usable Perl 6 distribution</summary>
