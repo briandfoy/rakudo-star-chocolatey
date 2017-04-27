@@ -8,8 +8,8 @@
 This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Reference. Chocolatey uses a special version of NuGet.Core that allows us to do more than was initially possible. As such there are certain things to be aware of:
 
 * the package xmlns schema url may cause issues with nuget.exe
-* Any of the following elements can ONLY be used by choco tools - projectSourceUrl, docsUrl, mailingListUrl, bugTrackerUrl, packageSourceUrl, provides, conflicts, replaces 
-* nuget.exe can still install packages with those elements but they are ignored. Any authoring tools or commands will error on those elements 
+* Any of the following elements can ONLY be used by choco tools - projectSourceUrl, docsUrl, mailingListUrl, bugTrackerUrl, packageSourceUrl, provides, conflicts, replaces
+* nuget.exe can still install packages with those elements but they are ignored. Any authoring tools or commands will error on those elements
 -->
 
 <!-- You can embed software files directly into packages, as long as you are not bound by distribution rights. -->
@@ -22,36 +22,86 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!-- This section is about this package, although id and version have ties back to the software -->
     <!-- id is lowercase and if you want a good separator for words, use '-', not '.'. Dots are only acceptable as suffixes for certain types of packages, e.g. .install, .portable, .extension, .template -->
     <!-- If the software is cross-platform, attempt to use the same id as the debian/rpm package(s) if possible. -->
-    <id>foo</id>
+    <id>rakudostar</id>
     <!-- version should MATCH as closely as possible with the underlying software -->
     <!-- Is the version a prerelease of a version? https://docs.nuget.org/create/versioning#creating-prerelease-packages -->
     <!-- Note that unstable versions like 0.0.1 can be considered a released version, but it's possible that one can release a 0.0.1-beta before you release a 0.0.1 version. If the version number is final, that is considered a released version and not a prerelease. -->
-    <version>__REPLACE__</version>
-    <!-- <packageSourceUrl>Where is this Chocolatey package located (think GitHub)? packageSourceUrl is highly recommended for the community feed</packageSourceUrl>-->
+    <version>2017.01</version>
+    <packageSourceUrl>https://github.com/briandfoy/chocolatey-packages</packageSourceUrl>
     <!-- owners is a poor name for maintainers of the package. It sticks around by this name for compatibility reasons. It basically means you. -->
-    <!--<owners>__REPLACE_YOUR_NAME__</owners>-->
+    <owners>brian d foy</owners>
     <!-- ============================== -->
 
     <!-- == SOFTWARE SPECIFIC SECTION == -->
     <!-- This section is about the software itself -->
-    <title>foo (Install)</title>
-    <authors>__REPLACE_AUTHORS_OF_SOFTWARE_COMMA_SEPARATED__</authors>
+    <title>Rakudo *</title>
+    <authors>Rakudo Star Team</authors>
     <!-- projectUrl is required for the community feed -->
-    <projectUrl>https://_Software_Location_REMOVE_OR_FILL_OUT_</projectUrl>
-    <!--<iconUrl>http://cdn.rawgit.com/__REPLACE_YOUR_REPO__/master/icons/foo.png</iconUrl>-->
-    <!-- <copyright>Year Software Vendor</copyright> -->
+    <projectUrl>http://rakudo.org/</projectUrl>
+    <iconUrl>https://github.com/briandfoy/chocolatey-packages/blob/master/rakudostar/rakudo.png?raw=true</iconUrl>
+    <copyright>Rakudo Star Team</copyright>
     <!-- If there is a license Url available, it is is required for the community feed -->
-    <!-- <licenseUrl>Software License Location __REMOVE_OR_FILL_OUT__</licenseUrl>
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>-->
-    <!--<projectSourceUrl>Software Source Location - is the software FOSS somewhere? Link to it with this</projectSourceUrl>-->
-    <!--<docsUrl>At what url are the software docs located?</docsUrl>-->
-    <!--<mailingListUrl></mailingListUrl>-->
+    <licenseUrl>https://github.com/rakudo/star/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectSourceUrl>https://github.com/rakudo/star/blob/master/LICENSE</projectSourceUrl>
+    <docsUrl>https://doc.perl6.org/</docsUrl>
+    <mailingListUrl>perl6 mailing lists</mailingListUrl>
     <!--<bugTrackerUrl></bugTrackerUrl>-->
-    <tags>foo admin SPACE_SEPARATED</tags>
-    <summary>__REPLACE__</summary>
-    <description>__REPLACE__MarkDown_Okay </description>
-    <!-- <releaseNotes>__REPLACE_OR_REMOVE__MarkDown_Okay</releaseNotes> -->
-    <!-- =============================== -->      
+    <tags>rakudostar admin</tags>
+    <summary>This is Rakudo Star, a useful, usable Perl 6 distribution</summary>
+    <description>A compiler for the Perl 6 programming language.
+
+The Rakudo Star distribution (aka Rakudo *) combines a Rakudo Perl 6 compiler with additional resources including a selection of modules.
+
+Rakudo Star is meant for those who wish to explore what’s possible with Rakudo Perl 6 and provide feedback on what works, what doesn’t, and what else they would like to see included in the Rakudo Star distribution.
+
+This chocolatey package defaults to the MoarVM.</description>
+    <releaseNotes>This is the sixth post-Christmas (production) release of Rakudo Star and implements Perl v6.c. It comes with support for the MoarVM backend (all module tests pass on supported platforms).
+
+This is the first Rakudo Star release to include “zef” as module installer. “panda” is to be shortly replaced by “zef” and will be removed in the near future.
+
+It’s hoped to produce quarterly Rakudo Star releases during 2017 with 2017.04 (April), 2017.07 (July) and 2017.10 (October) to follow.
+
+Please note that this release of Rakudo Star is not fully functional with the JVM backend from the Rakudo compiler. Please use the MoarVM backend only.
+
+In the Perl 6 world, we make a distinction between the language (“Perl 6”) and specific implementations of the language such as “Rakudo Perl”.
+
+This Star release includes [release 2017.01] of the [Rakudo Perl 6 compiler], version 2017.01 of [MoarVM], plus various modules, documentation, and other resources collected from the Perl 6 community.
+
+The Rakudo compiler changes since the last Rakudo Star release of 2016.11 are now listed in “2016.12.md” and “2017.01.md” under the “rakudo/docs/announce” directory of the source distribution.
+
+Notable changes in modules shipped with Rakudo Star:
+
+- DBIish: Pg: TypeConverter post-merge cleanup
+- Linenoise: Remove dependency on Native::Resources
+- Pod-To-HTML: Bump version for #22 fix
+- Terminal-ANSIColor: Drop ‘nqp’ dependency
+- doc: Too many to list
+- json: Fix parsing of string literals with a leading combining character.
+- json\_fast: bump version since we now escape null bytes
+- panda: modified to warn of its removal in the short term
+- perl6-http-easy: Several pull requests merged
+- perl6-lwp-simple: Tweak tests to work with TAP::Harness
+- perl6-pod-to-bigpage: bump version
+- test-mock: Bump version.
+- zef: imported
+
+There are some key features of Perl 6 that Rakudo Star does not yet handle appropriately, although they will appear in upcoming releases.
+Some of the not-quite-there features include:
+
+- advanced macros
+- non-blocking I/O (in progress)
+- some bits of Synopsis 9 and 11
+
+There is an online resource at &lt;http://perl6.org/compilers/features&gt; that lists the known implemented and missing features of Rakudo’s backends and other Perl 6 implementations.
+
+In many places we’ve tried to make Rakudo smart enough to inform the programmer that a given feature isn’t implemented, but there are many that we’ve missed. Bug reports about missing and broken features are welcomed at &lt;rakudobug@perl.org&gt;.
+
+See &lt;http://perl6.org/&gt; for links to much more information about Perl 6, including documentation, example code, tutorials, presentations, reference materials, design documents, and other supporting resources. Some Perl 6 tutorials are available under the “docs” directory in the release tarball.
+
+The development team thanks all of the contributors and sponsors for making Rakudo Star possible. If you would like to contribute, see &lt;http://rakudo.org/how-to-help&gt;, ask on the &lt;perl6-compiler@perl.org&gt; mailing list, or join us on IRC #perl6 on freenode.
+</releaseNotes>
+    <!-- =============================== -->
 
     <!-- Specifying dependencies and version ranges? https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files -->
     <!--<dependencies>
