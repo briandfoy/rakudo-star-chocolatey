@@ -5,7 +5,7 @@
     <title>Rakudo *</title>
     <version>2017.01</version>
     <authors>Rakudo Star Team</authors>
-    <owners>Jake Russo</owners>
+    <owners>brian d foy</owners>
     <summary>This is Rakudo Star, a useful, usable Perl 6 distribution for "early adopters".</summary>
     <description>A compiler for the Perl 6 programming language.
 
