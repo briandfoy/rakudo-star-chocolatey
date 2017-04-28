@@ -4,7 +4,8 @@ The [Chocolatey package for Rakudo Star](https://chocolatey.org/packages/rakudos
 
 Get the latest [Rakudo Star](http://rakudo.org/downloads/star/).
 Use the URL to a specific version instead of the "latest" link. The
-Chocolatey package uses a checksum, which changes.
+Chocolatey package uses a checksum, which changes. Modify that in
+[tools/chocolateyinstall.ps1](tools/chocolateyinstall.ps1).
 
 Update the release notes in [rakudostar.nuspec](rakudostar.nuspec).
 
