@@ -9,9 +9,9 @@ Chocolatey package uses a checksum, which changes.
 Update the release notes in [rakudostar.nuspec](rakudostar.nuspec).
 
 Update the version in  [rakudostar.nuspec](rakudostar.nuspec)
-and [tools/chocolateyInstall.ps1](tools/chocolateyinstall.ps1).
+and [tools/chocolateyinstall.ps1](tools/chocolateyinstall.ps1).
 
-Add the checksum to [tools/chocolateyInstall.ps1](tools/chocolateyinstall.ps1)
+Add the checksum to [tools/chocolateyinstall.ps1](tools/chocolateyinstall.ps1)
 
 	certUtil -hashfile pathToFileToCheck [HashAlgorithm]
 
