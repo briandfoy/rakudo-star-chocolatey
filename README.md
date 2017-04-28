@@ -1,6 +1,10 @@
 # Chocolatey Package for Rakudo Star
 
 The [Chocolatey package for Rakudo Star](https://chocolatey.org/packages/rakudostar).
+If you'd like to be a maintainer, just ask. I'd like to have a small
+group of people that can respond to problem (or even just add new maintainers)
+if someone can't update the package. Someone with Windows or Powershell
+affinity would be nice.
 
 Get the latest [Rakudo Star](http://rakudo.org/downloads/star/).
 Use the URL to a specific version instead of the "latest" link. The

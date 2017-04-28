@@ -27,7 +27,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!-- Is the version a prerelease of a version? https://docs.nuget.org/create/versioning#creating-prerelease-packages -->
     <!-- Note that unstable versions like 0.0.1 can be considered a released version, but it's possible that one can release a 0.0.1-beta before you release a 0.0.1 version. If the version number is final, that is considered a released version and not a prerelease. -->
     <version>2017.01.01</version>
-    <packageSourceUrl>https://github.com/briandfoy/chocolatey-packages</packageSourceUrl>
+    <packageSourceUrl>https://github.com/briandfoy/rakudo-star-chocolatey</packageSourceUrl>
     <!-- owners is a poor name for maintainers of the package. It sticks around by this name for compatibility reasons. It basically means you. -->
     <owners>brian d foy</owners>
     <!-- ============================== -->
@@ -38,7 +38,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <authors>Rakudo Star Team</authors>
     <!-- projectUrl is required for the community feed -->
     <projectUrl>http://rakudo.org/</projectUrl>
-    <iconUrl>https://github.com/briandfoy/chocolatey-packages/blob/master/rakudostar/rakudo.png?raw=true</iconUrl>
+    <iconUrl>https://github.com/briandfoy/rakudo-star-chocolatey/rakudo.png?raw=true</iconUrl>
     <copyright>Rakudo Star Team</copyright>
     <!-- If there is a license Url available, it is is required for the community feed -->
     <licenseUrl>https://github.com/rakudo/star/blob/master/LICENSE</licenseUrl>
