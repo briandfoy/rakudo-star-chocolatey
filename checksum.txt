@@ -1,3 +1,0 @@
-SHA256 hash of file rakudo.msi:
-97e38fc510eb591b6f4a0a76d64ded04ed5c963f1cdb6cfabb72b916ae9fe042
-CertUtil: -hashfile command completed successfully.
