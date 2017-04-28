@@ -38,7 +38,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <authors>Rakudo Star Team</authors>
     <!-- projectUrl is required for the community feed -->
     <projectUrl>http://rakudo.org/</projectUrl>
-    <iconUrl>https://github.com/briandfoy/rakudo-star-chocolatey/rakudo.png?raw=true</iconUrl>
+    <iconUrl>https://cdn.rawgit.com/briandfoy/rakudo-star-chocolatey/a6815d1a/rakudo.png</iconUrl>
     <copyright>Rakudo Star Team</copyright>
     <!-- If there is a license Url available, it is is required for the community feed -->
     <licenseUrl>https://github.com/rakudo/star/blob/master/LICENSE</licenseUrl>
