@@ -49,11 +49,9 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!--<bugTrackerUrl></bugTrackerUrl>-->
     <tags>rakudostar admin</tags>
     <summary>This is Rakudo Star, a useful, usable Perl 6 distribution</summary>
-    <description>A compiler for the Perl 6 programming language.
+    <description>A useful and usable production distribution of Perl 6
 
 The Rakudo Star distribution (aka Rakudo *) combines a Rakudo Perl 6 compiler with additional resources including a selection of modules.
-
-Rakudo Star is meant for those who wish to explore what’s possible with Rakudo Perl 6 and provide feedback on what works, what doesn’t, and what else they would like to see included in the Rakudo Star distribution.
 
 This chocolatey package defaults to the MoarVM.</description>
     <releaseNotes>This is the sixth post-Christmas (production) release of Rakudo Star and implements Perl v6.c. It comes with support for the MoarVM backend (all module tests pass on supported platforms).
