@@ -18,7 +18,7 @@ and [tools/chocolateyinstall.ps1](tools/chocolateyinstall.ps1).
 
 Add the checksum to [tools/chocolateyinstall.ps1](tools/chocolateyinstall.ps1)
 
-	certUtil -hashfile pathToFileToCheck [HashAlgorithm]
+	certUtil -hashfile pathToFileToCheck SHA256
 
 Pack the distro:
 
