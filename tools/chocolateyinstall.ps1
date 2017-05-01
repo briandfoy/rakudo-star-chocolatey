@@ -2,7 +2,7 @@
 
 $packageName= 'rakudostar'
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$url64      = 'http://rakudo.org/downloads/star/rakudo-star-2017.01-x86_64%20(JIT).msi'
+$url64      = 'https://rakudo.perl6.org/downloads/star/rakudo-star-2017.04-x86_64%20(JIT).msi'
 $packageArgs = @{
   packageName   = $packageName
   unzipLocation = $toolsDir
@@ -11,7 +11,7 @@ $packageArgs = @{
 
   softwareName  = 'rakudo*'
 
-  checksum64    = '97e38fc510eb591b6f4a0a76d64ded04ed5c963f1cdb6cfabb72b916ae9fe042'
+  checksum64    = '702346fe0cb7338f57869c6f92fc6589f2af88fc2470a06c2fcaedfdb55c2e70'
   checksumType64= 'sha256'
 
   silentArgs    = "/qn /norestart /l*v `"$($env:TEMP)\$($packageName).$($env:chocolateyPackageVersion).MsiInstall.log`""
