@@ -52,7 +52,7 @@ run() unless caller;
 
 sub run {
 	state $rc = require Mojo::JSON;
-	print Mojo::JSON::encode_json( get_details() );
+	print Mojo::JSON::encode_json( get_package_details() );
 	}
 
 =item * get_package_details( URL, FILENAME, UNLINK )
