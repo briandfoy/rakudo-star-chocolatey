@@ -96,7 +96,7 @@ sub get_details (
 	unlink $file if $unlink;
 
 	my %hash = (
-		url     => $latest_rakudo_url,
+		url     => "$latest_rakudo_url", # undo Mojo::URL possibly
 		version => $version,
 		sha256  => $sha256,
 		);
