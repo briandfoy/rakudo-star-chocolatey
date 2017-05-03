@@ -126,7 +126,7 @@ sub extract_version ( $file = 'rakudostar.nuspec' ) {
 	}
 
 sub _find_pattern ( $file, $regex ) {
-	open my $fh, '<:utf8', $file;
+	open my $fh, '<:utf8', $file or die "Problem with $file: $!";
 	while( <$fh> ) {
 		next unless $_ =~ $regex;
 		return $1;
