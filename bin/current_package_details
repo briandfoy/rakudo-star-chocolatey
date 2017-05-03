@@ -21,7 +21,7 @@ programs:
 	require 'current_package_details';
 
 	# get the most recent
-	my %hash = get_details();
+	my %hash = get_package_details();
 
 You can call it like a program, which outputs a JSON string:
 
@@ -55,7 +55,7 @@ sub run {
 	print Mojo::JSON::encode_json( get_details() );
 	}
 
-=item * get_details( URL, FILENAME, UNLINK )
+=item * get_package_details( URL, FILENAME, UNLINK )
 
 Extracts the distribution details from the current chocolatey files.
 
@@ -67,7 +67,7 @@ Extracts the distribution details from the current chocolatey files.
 
 =cut
 
-sub get_details () {
+sub get_package_details () {
 	my $latest_rakudo_url = get_latest_url();
 	my $version           = extract_version();
 	my $sha256            = get_sha256();
