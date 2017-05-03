@@ -15,13 +15,13 @@ current_package_details - get the Rakudo details in the latest chocolately files
 
 =head1 SYNOPSIS
 
-This program is a modulino. You can use it like a library in other
-programs:
+This program is a modulino using the program name as the package name.
+You can use it like a library in other programs:
 
 	require 'current_package_details';
 
 	# get the most recent
-	my %hash = get_package_details();
+	my %hash = current_package_details::get_package_details();
 
 You can call it like a program, which outputs a JSON string:
 
@@ -41,6 +41,8 @@ Perl 6. In most uses, you probably want the default values for all
 parameters.
 
 =cut
+
+package current_package_details;
 
 run() unless caller;
 

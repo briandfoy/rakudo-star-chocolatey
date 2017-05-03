@@ -15,16 +15,16 @@ latest_rakudo_msi_details - get the details for the latest Rakudo Star MSI file
 
 =head1 SYNOPSIS
 
-This program is a modulino. You can use it like a library in other
-programs:
+This program is a modulino using the program name as the package name.
+You can use it like a library in other programs:
 
 	require 'latest_rakudo_msi_details';
 
 	# get the most recent
-	my %hash = get_details();
+	my %hash = latest_rakudo_msi_details::get_details();
 
 	# get a particular URL, maybe an older one
-	my %hash = get_details( $url );
+	my %hash = latest_rakudo_msi_details::get_details( $url );
 
 You can call it like a program, which outputs a JSON string:
 
@@ -43,6 +43,8 @@ with Rakudo Star, a distribution of Perl 6. In most uses, you probably
 want the default values for all parameters.
 
 =cut
+
+package latest_rakudo_msi_details;
 
 run() unless caller;
 
