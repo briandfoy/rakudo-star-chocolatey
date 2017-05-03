@@ -1,0 +1,152 @@
+#!perl
+use v5.24;
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
+
+use open qw(:std :utf8);
+
+use Mojo::URL;
+
+=encoding utf8
+
+=head1 NAME
+
+current_package_details - get the Rakudo details in the latest chocolately files
+
+=head1 SYNOPSIS
+
+This program is a modulino. You can use it like a library in other
+programs:
+
+	require 'current_package_details';
+
+	# get the most recent
+	my %hash = get_details();
+
+You can call it like a program, which outputs a JSON string:
+
+	% perl5.24 current_package_details
+	{"sha256":"6654495651890ebcee98c0d33d392cdcdc18d8deb0412f6f7026cb730bf0bbed",
+	"url":"http:\/\/rakudo.org\/downloads\/star\/rakudo-star-2017.04.1-x86_64%20(JIT).msi",
+	"version":1}
+
+Consider piping that JSON string to another program that might do more
+in the process (such as modifying templates).
+
+=head1 DESCRIPTION
+
+You can use this as a program or a library. This is specialized for
+use with the chocolately package for Rakudo Star, a distribution of
+Perl 6. In most uses, you probably want the default values for all
+parameters.
+
+=cut
+
+run() unless caller;
+
+=over 4
+
+=item * run()
+
+=cut
+
+sub run {
+	state $rc = require Mojo::JSON;
+	print Mojo::JSON::encode_json( get_details() );
+	}
+
+=item * get_details( URL, FILENAME, UNLINK )
+
+Extracts the distribution details from the current chocolatey files.
+
+	my %hash = (
+		url     => $latest_rakudo_url,
+		version => $version,
+		sha256  => $sha256,
+		);
+
+=cut
+
+sub get_details () {
+	my $latest_rakudo_url = get_latest_url();
+	my $version           = extract_version();
+	my $sha256            = get_sha256();
+
+	my %hash = (
+		url     => $latest_rakudo_url,
+		version => $version,
+		sha256  => $sha256,
+		);
+
+	return \%hash
+	}
+
+=item * get_latest_url( FILE )
+
+Get the URL for the latest Rakudo distribution listed in FILE. This does
+simple text matching against the PowerShell files in this distribution. If
+those formats change, this probably needs to change.
+
+The default FILE is F<tools/chocolateyinstall.ps1>.
+
+=cut
+
+sub get_latest_url ( $file = 'tools/chocolateyinstall.ps1' ) {
+	_find_pattern( $file, qr{\$url64\s+=\s+'(.*?)'} )
+	}
+
+=item * get_sha256( FILE )
+
+Extracts the SHA256 from FILE. This does simple text matching against
+the PowerShell files in this distribution. If those formats change,
+this probably needs to change.
+
+The default FILE is F<tools/chocolateyinstall.ps1>.
+
+=cut
+
+sub get_sha256 ( $file = 'tools/chocolateyinstall.ps1' ) {
+	_find_pattern( $file, qr{checksum64\s+=\s+'(.*?)'} )
+	}
+
+=item * extract_version( FILE )
+
+Extract the Rakudo Star version from FILE. This does simple text
+matching against the NuSpec file in this distribution. If the format
+changes, this probably needs to change.
+
+The default FILE is F<rakudostar.nuspec>.
+
+=cut
+
+sub extract_version ( $file = 'rakudostar.nuspec' ) {
+	_find_pattern( $file, qr{<version>(.*?)</version>} )
+	}
+
+sub _find_pattern ( $file, $regex ) {
+	open my $fh, '<:utf8', $file;
+	while( <$fh> ) {
+		next unless $_ =~ $regex;
+		return $1;
+		}
+	}
+
+=head1 SOURCE AVAILABILITY
+
+This module is in Github:
+
+	https://github.com/briandfoy/rakudo-star-chocolatey
+
+=head1 AUTHOR
+
+brian d foy, C<< <bdfoy@cpan.org> >>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright © 2017, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the Artistic License 2. A LICENSE file should have accompanied
+this distribution.
+
+=cut
