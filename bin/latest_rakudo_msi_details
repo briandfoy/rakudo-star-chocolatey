@@ -61,9 +61,10 @@ sub run {
 
 =item * get_details( URL, FILENAME, UNLINK )
 
-Fetch URL for the list of Rakudo releases, save it in FILENAME, and possibly keep it around afterward.
-This extracts the latest Rakudo release URL, the Rakudo version, and
-the SHA256 checksum for the distribution. It returns this as a hash:
+Fetch URL for the list of Rakudo releases, save it in FILENAME, and
+possibly keep it around afterward. This extracts the latest Rakudo
+release URL, the Rakudo version, and the SHA256 checksum for the
+distribution. It returns this as a hash:
 
 	my %hash = (
 		url     => $latest_rakudo_url,
