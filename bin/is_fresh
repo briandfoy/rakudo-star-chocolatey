@@ -1,0 +1,93 @@
+#!perl
+use v5.24;
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
+
+use open qw(:std :utf8);
+use Data::Dumper;
+
+=encoding utf8
+
+=head1 NAME
+
+is_fresh - check that the chocolatey package doesn't match the latest Rakudo Star details
+
+=head1 SYNOPSIS
+
+This program is a modulino. You can use it like a library in other
+programs:
+
+	require 'is_fresh';
+
+	my $diffs = is_fresh::get_diffs; # a hashref
+
+You can call it like a program, which outputs a JSON string:
+
+	% perl5.24 is_fresh
+
+You can also use this in a shell program by testing the exit code.
+
+=head1 DESCRIPTION
+
+You can use this as a program or a library. This is specialized for
+use with the chocolately package for Rakudo Star, a distribution of
+Perl 6. In most uses, you probably want the default values for all
+parameters.
+
+=head1 SOURCE AVAILABILITY
+
+This module is in Github:
+
+	https://github.com/briandfoy/rakudo-star-chocolatey
+
+=head1 AUTHOR
+
+brian d foy, C<< <bdfoy@cpan.org> >>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright © 2017, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the Artistic License 2. A LICENSE file should have accompanied
+this distribution.
+
+=cut
+
+require 'bin/latest_rakudo_msi_details';
+require 'bin/current_package_details';
+
+package is_fresh;
+use IO::Interactive qw(interactive);
+
+run() unless caller;
+
+sub run () {
+	my $diffs = get_diffs();
+	if( keys %$diffs ) {
+		say { interactive } "Chocolately Rakudo Star is stale";
+		say { interactive } Dumper( $diffs );
+		exit 1;
+		}
+	say { interactive } "Chocolately Rakudo Star is fresh";
+	exit 0;
+	}
+
+sub get_diffs () {
+	my %diff;
+
+	my $latest     = latest_rakudo_msi_details::get_details();
+	my $chocolatey = current_package_details::get_package_details();
+
+	foreach my $key ( keys %$latest ) {
+		$diff{$key} = {
+			latest     => $latest->{$key},
+			chocolatey => $chocolatey->{$key}
+			}
+			unless $latest->{$key} eq $chocolatey->{$key};
+		}
+
+	return \%diff;
+	}
+
+1;
