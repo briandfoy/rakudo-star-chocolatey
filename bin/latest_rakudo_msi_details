@@ -111,15 +111,14 @@ should call this without any arguments.
 
 The URL defaults to L<http://rakudo.org/downloads/star/>.
 
-The BASE_URL defaults to L<http://rakudo.org/downloads/star/>, but for
-most cases you won't need to use that. If you want to construct a
-different URL based on a mirror site this might be helpful.
+The BASE_URL defaults to L<https://rakudo.perl6.org/downloads/star/>.
+This site has SSL without a certificate error.
 
 =cut
 
 sub get_latest_url (
 	$url      = Mojo::URL->new('http://rakudo.org/downloads/star/'),
-	$base_url = Mojo::URL->new('http://rakudo.org/downloads/star/'),
+	$base_url = Mojo::URL->new('https://rakudo.perl6.org/downloads/star/'),
 	) {
 	my $ua = mojo_ua();
 
