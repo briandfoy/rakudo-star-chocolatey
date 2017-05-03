@@ -76,9 +76,9 @@ The URL defaults to the value returned by C<get_latest_url()>.
 The FILENAME defaults to F<latest.msi>.
 
 UNLINK defaults to value of the environment variable
-C<LATEST_RAKUDO_MSI_UNLINK>, or true if that is not defined.
-In that case, FILENAME is discarded. Otherwise, the file
-should be there after this runs.
+C<LATEST_RAKUDO_MSI_UNLINK>, or true if that is not defined. In that
+case, FILENAME is discarded. Otherwise, the file should be there after
+this runs.
 
 =cut
 
