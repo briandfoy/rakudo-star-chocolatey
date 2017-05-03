@@ -1,0 +1,222 @@
+#!perl
+use v5.24;
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
+
+use open qw(:std :utf8);
+
+use Mojo::URL;
+
+=encoding utf8
+
+=head1 NAME
+
+latest_rakudo_msi_details - get the details for the latest Rakudo Star MSI file
+
+=head1 SYNOPSIS
+
+This program is a modulino. You can use it like a library in other
+programs:
+
+	require 'latest_rakudo_msi_details';
+
+	# get the most recent
+	my %hash = get_details();
+
+	# get a particular URL, maybe an older one
+	my %hash = get_details( $url );
+
+You can call it like a program, which outputs a JSON string:
+
+	% perl5.24 latest_rakudo_msi_details
+	{"sha256":"6654495651890ebcee98c0d33d392cdcdc18d8deb0412f6f7026cb730bf0bbed",
+	"url":"http:\/\/rakudo.org\/downloads\/star\/rakudo-star-2017.04.1-x86_64%20(JIT).msi",
+	"version":1}
+
+Consider piping that JSON string to another program that might do more
+in the process (such as modifying templates).
+
+=head1 DESCRIPTION
+
+You can use this as a program or a library. This is specialized for use
+with Rakudo Star, a distribution of Perl 6. In most uses, you probably
+want the default values for all parameters.
+
+=cut
+
+run() unless caller;
+
+=over 4
+
+=item * run()
+
+=cut
+
+sub run {
+	state $rc = require Mojo::JSON;
+	print Mojo::JSON::encode_json( get_details() );
+	}
+
+=item * get_details( URL, FILENAME, UNLINK )
+
+Fetch URL for the list of Rakudo releases, save it in FILENAME, and possibly keep it around afterward.
+This extracts the latest Rakudo release URL, the Rakudo version, and
+the SHA256 checksum for the distribution. It returns this as a hash:
+
+	my %hash = (
+		url     => $latest_rakudo_url,
+		version => $version,
+		sha256  => $sha256,
+		);
+
+In most cases, you should call this without any arguments.
+
+The URL defaults to the value returned by C<get_latest_url()>.
+
+The FILENAME defaults to F<latest.msi>.
+
+UNLINK defaults to value of the environment variable
+C<LATEST_RAKUDO_MSI_UNLINK>, or true if that is not defined.
+In that case, FILENAME is discarded. Otherwise, the file
+should be there after this runs.
+
+=cut
+
+sub get_details (
+	$latest_rakudo_url = get_latest_url(),
+	$file              = 'latest.msi',
+	$unlink            = $ENV{LATEST_RAKUDO_MSI_UNLINK} // 1,
+	) {
+	my $version = extract_version( $latest_rakudo_url );
+
+	fetch_file( $latest_rakudo_url, $file );
+	my $sha256 = get_sha256( $file );
+	unlink $file if $unlink;
+
+	my %hash = (
+		url     => $latest_rakudo_url,
+		version => $version,
+		sha256  => $sha256,
+		);
+
+	return \%hash
+	}
+
+=item * get_latest_url( URL, BASE_URL )
+
+Get the URL for the latest Rakudo distribution. In most cases, you
+should call this without any arguments.
+
+The URL defaults to L<http://rakudo.org/downloads/star/>.
+
+The BASE_URL defaults to L<http://rakudo.org/downloads/star/>, but for
+most cases you won't need to use that. If you want to construct a
+different URL based on a mirror site this might be helpful.
+
+=cut
+
+sub get_latest_url (
+	$url      = Mojo::URL->new('http://rakudo.org/downloads/star/'),
+	$base_url = Mojo::URL->new('http://rakudo.org/downloads/star/'),
+	) {
+	my $ua = mojo_ua();
+
+	$base_url = Mojo::URL->new( $base_url );
+
+	my $latest_rakudo_url =
+		$ua->get( $url )
+			->res
+			->dom
+			->find( 'table[id=latest] td[class=file] a[class=ext-msi]' )
+			->map( attr => 'href' )
+			->grep( sub { ! /2016/ } )  # old 32-bit version
+			->map( sub { Mojo::URL->new($_)->base( $base_url )->to_abs } )
+			->first
+			;
+	}
+
+=item * get_sha256( FILENAME )
+
+Return the hex digest SHA256 in hex digest form for the content in
+FILENAME.
+
+The FILENAME defaults to F<latest.msi>.
+
+=cut
+
+sub get_sha256 ( $file = 'latest.msi' ) {
+	state $rc = require Digest::SHA;
+
+	my $sha256 =
+		Digest::SHA->new( '256' )
+			->addfile( $file )
+			->hexdigest
+			;
+	}
+
+=item * fetch_file( URL, FILENAME )
+
+Fetch the URL and save its content as FILENAME.
+
+The URL defaults to the value returned by C<get_latest_url()>.
+
+The FILENAME defaults to F<latest.msi>.
+
+=cut
+
+sub fetch_file ( $latest_url = get_latest_url(), $save_as = 'latest.msi' ) {
+	my $ua = mojo_ua();
+
+	$ua->get( $latest_url )
+		->res->content->asset
+		->move_to( $save_as );
+	}
+
+=item * extract_version( URL )
+
+Extract the Rakudo Star version from the URL. The filename looks like
+F<Rakudo-star-2017.04.1-x86_64%20(JIT).msi>, in which case the version is
+C<2017.04.1>.
+
+The URL defaults to the value returned by C<get_latest_url()>.
+
+=cut
+
+sub extract_version ( $url = get_latest_url() ) {
+	# rakudo-star-2017.04.1-x86_64%20(JIT).msi
+	my( $version ) = $url =~ /star-(.*?)-/;
+	return $version;
+	}
+
+=item * mojo_ua()
+
+Return a Mojo::UserAgent object. This constructs it only the first time
+you call it and returns the same thing for subsequent calls.
+
+=cut
+
+sub mojo_ua () {
+	state $rc = require Mojo::UserAgent;
+	state $ua = Mojo::UserAgent->new;
+	$ua;
+	}
+
+=head1 SOURCE AVAILABILITY
+
+This module is in Github:
+
+	https://github.com/briandfoy/rakudo-star-chocolatey
+
+=head1 AUTHOR
+
+brian d foy, C<< <bdfoy@cpan.org> >>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright © 2017, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the Artistic License 2. A LICENSE file should have accompanied
+this distribution.
+
+=cut
