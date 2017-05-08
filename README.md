@@ -9,7 +9,7 @@ affinity would be nice.
 You can use the [bin/latest_rakudo_msi_details](bin/latest_rakudo_msi_details)
 program to fetch the latest details:
 
-	$ perl5.24.0 bin/latest_rakudo_msi_details
+	$ perl5.24 bin/latest_rakudo_msi_details
 	{"sha256":"6654495651890ebcee98c0d33d392cdcdc18d8deb0412f6f7026cb730bf0bbed",
 	"url":"http:\/\/rakudo.org\/downloads\/star\/rakudo-star-2017.04.1-x86_64%20(JIT).msi",
 	"version":"2017.04.1"}
