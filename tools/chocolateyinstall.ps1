@@ -11,7 +11,7 @@ $packageArgs = @{
 
   softwareName  = 'rakudo*'
 
-  checksum64    = '7a8086d198250c0f5d9b2e9579e6c2c0c62d0fe5f07d317f62329ba868468880'
+  checksum64    = '82f0f1debb7984ccf78f534caf31f6481da72fecc7be284a74cc329a74d5ebe6'
   checksumType64= 'sha256'
 
   silentArgs    = "/qn /norestart /l*v `"$($env:TEMP)\$($packageName).$($env:chocolateyPackageVersion).MsiInstall.log`""
