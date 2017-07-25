@@ -2,7 +2,7 @@
 
 $packageName= 'rakudostar'
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$url64      = 'https://rakudo.perl6.org/downloads/star/rakudo-star-2017.04.2-x86_64%20(JIT).msi'
+$url64      = 'https://rakudo.perl6.org/downloads/star/rakudo-star-2017.07-x86_64%20(JIT).msi'
 $packageArgs = @{
   packageName   = $packageName
   unzipLocation = $toolsDir
