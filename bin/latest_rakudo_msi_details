@@ -203,6 +203,8 @@ sub mojo_ua () {
 	$ua;
 	}
 
+=back
+
 =head1 SOURCE AVAILABILITY
 
 This module is in Github:

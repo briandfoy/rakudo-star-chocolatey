@@ -133,6 +133,8 @@ sub _find_pattern ( $file, $regex ) {
 		}
 	}
 
+=back
+
 =head1 SOURCE AVAILABILITY
 
 This module is in Github:
