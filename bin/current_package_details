@@ -2,7 +2,6 @@
 use v5.24;
 use feature qw(signatures);
 no warnings qw(experimental::signatures);
-
 use open qw(:std :utf8);
 
 use Mojo::URL;
@@ -54,7 +53,14 @@ run() unless caller;
 
 sub run {
 	state $rc = require Mojo::JSON;
-	print Mojo::JSON::encode_json( get_package_details() );
+	open my $raw_string_fh, '>:raw', \my $string;
+	print { $raw_string_fh } Mojo::JSON::encode_json( get_package_details() ); # filehandle must be raw!
+	close $raw_string_fh;
+
+	open my $utf8_string_fh, '<:utf8', \$string;
+	local $/;
+	my $utf8_string = readline $utf8_string_fh;
+	say $utf8_string;
 	}
 
 =item * get_package_details( URL, FILENAME, UNLINK )
