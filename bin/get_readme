@@ -1,0 +1,170 @@
+#!perl
+use v5.24;
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
+use open qw(:std :utf8);
+
+=encoding utf8
+
+=head1 NAME
+
+get_readme - get the Rakudo Star release announcement
+
+=head1 SYNOPSIS
+
+This program is a modulino using the program name as the package name.
+You can use it like a library in other programs:
+
+	require 'get_readme';
+
+	# get the most recent
+	my %hash = get_readme::get_package_details();
+
+You can call it like a program, which outputs a JSON string:
+
+	% perl5.24 get_readme
+
+
+Consider piping that JSON string to another program that might do more
+in the process (such as modifying templates).
+
+=head1 DESCRIPTION
+
+You can use this as a program or a library. This is specialized for
+use with the chocolately package for Rakudo Star, a distribution of
+Perl 6. In most uses, you probably want the default values for all
+parameters.
+
+=cut
+
+package get_readme;
+
+use Data::Dumper;
+
+run() unless caller;
+
+=over 4
+
+=item * run()
+
+=cut
+
+sub run {
+	state $rc = require Mojo::JSON;
+	open my $raw_string_fh, '>:raw', \my $string;
+	print { $raw_string_fh } Mojo::JSON::encode_json( get_readme_stuff() ); # filehandle must be raw!
+	close $raw_string_fh;
+
+	open my $utf8_string_fh, '<:utf8', \$string;
+	local $/;
+	my $utf8_string = readline $utf8_string_fh;
+	say $utf8_string;
+	}
+
+sub get_readme_stuff () {
+	my $url = get_announce_url();
+	say $url;
+
+	my $readme_html = extract_readme( $url );
+
+	state $rc = require HTML::FormatMarkdown;
+	my $markdown_error = '';
+	my $markdown    = eval { HTML::FormatMarkdown
+		->format_string( $readme_html );
+		} or $markdown_error = $@;
+
+	my %hash = (
+		url      => $url,
+		html     => $readme_html,
+		markdown => $markdown,
+		error    => $markdown_error,
+		);
+
+	return \%hash;
+	}
+
+=item * extract_readme
+
+
+=cut
+
+sub extract_readme ( $url ) {
+	my $string = '' . mojo_ua()
+		->get( $url )
+		->res
+		->dom
+		->find( 'div[class="entry-content"]' )
+		->first
+		->to_string;
+
+	$string;
+	}
+
+=item * get_announce_url
+
+Get the announcement URL. If you specify a command-line parameter,
+it returns that. You can specify the URL in case the rest of the routine
+can't parse the blog entries.
+
+Otherwise, this fetches the "announce" category and returns the first
+(most recent) post.
+
+=cut
+
+sub get_announce_url () {
+	return $ARGV[0] if @ARGV;
+
+	mojo_ua()
+		->get( get_category_url() )
+		->res
+		->dom
+		->find( 'h2[class="entry-title"] a[rel="bookmark"]' )
+		->map( sub { $_->{href} } )
+		->first;
+	}
+
+=item * get_category_url
+
+Return the URL for the "announce" category on rakudo.org. Each of these
+posts should have the release announcement for the Rakudo * release.
+
+=cut
+
+sub get_category_url () { 'http://rakudo.org/category/announce/' }
+
+=item * mojo_ua()
+
+Return a Mojo::UserAgent object. This constructs it only the first time
+you call it and returns the same thing for subsequent calls.
+
+=cut
+
+sub mojo_ua () {
+	state $rc = require Mojo::UserAgent;
+	state $ua = Mojo::UserAgent->new;
+	$ua;
+	}
+
+=back
+
+=head1 SOURCE AVAILABILITY
+
+This module is in Github:
+
+	https://github.com/briandfoy/rakudo-star-chocolatey
+
+=head1 AUTHOR
+
+brian d foy, C<< <bdfoy@cpan.org> >>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright © 2017, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the Artistic License 2. A LICENSE file should have accompanied
+this distribution.
+
+=cut
+
+1;
