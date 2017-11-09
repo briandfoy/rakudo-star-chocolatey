@@ -9,10 +9,17 @@ group of people that can respond to problems (or even just add new maintainers)
 if someone can't update the package. Someone with Windows or Powershell
 affinity would be nice.
 
+Install [chocolatey](https://chocolatey.org/install).
+
+If you don't have `perl` already, install the package. You'll need at
+least v5.24.
+
+	choco install strawberryperl
+
 You can use the [bin/latest_rakudo_msi_details](bin/latest_rakudo_msi_details)
 program to fetch the latest details:
 
-	$ perl5.24 bin/latest_rakudo_msi_details
+	$ perl bin/latest_rakudo_msi_details
 	{"sha256":"6654495651890ebcee98c0d33d392cdcdc18d8deb0412f6f7026cb730bf0bbed",
 	"url":"http:\/\/rakudo.org\/downloads\/star\/rakudo-star-2017.04.1-x86_64%20(JIT).msi",
 	"version":"2017.04.1"}
