@@ -65,7 +65,7 @@ foreach my $template ( @templates ) {
 		or die "Could not open <cooked_$template>: $!";
 
 	$data =~ s/%%SHA256%%/$last_rakudo_details->{sha256}/g;
-	$data =~ s/%%VERSION%%/$last_rakudo_details->{version}/g;
+	$data =~ s/%%VERSION%%/$next_version/g;
 	$data =~ s/%%URL%%/$last_rakudo_details->{url}/g;
 	$data =~ s/%%README%%/$readme_details->{markdown_xml_escaped}/g;
 
