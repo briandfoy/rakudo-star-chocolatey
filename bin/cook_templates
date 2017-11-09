@@ -30,6 +30,7 @@ my @templates = glob( 'templates/*.template templates/*/*.template' );
 make_path 'cooked_templates';
 
 foreach my $template ( @templates ) {
+	say "Processing $template";
 	my $data = do { local( @ARGV, $/ ) = $template; <> };
 	my $file = "cooked_$template";
 	$file =~ s/\.template$//;
