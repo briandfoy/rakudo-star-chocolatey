@@ -14,11 +14,33 @@ require "$FindBin::Bin/current_package_details";
 require "$FindBin::Bin/latest_rakudo_msi_details";
 require "$FindBin::Bin/get_readme";
 
+# the ones in the last package that we'd created
+# the version is YYYY.MM.
 my $current_details = current_package_details::get_package_details();
-say Dumper($current_details);
+say "Current details:\n", Dumper($current_details);
 
+# the latest release, which might also be the one we've already
+# packaged. This will not have a point version.
 my $last_rakudo_details = latest_rakudo_msi_details::get_details();
-say Dumper($last_rakudo_details);
+say "Latest details:\n", Dumper($last_rakudo_details);
+
+my @c = split /\./, $current_details->{version};
+my @l = split /\./, $last_rakudo_details->{version};
+my @new_version = @l;
+
+# the previous version we packaged is the same. It's the same year and
+# month.
+if( $c[0] == $l[0] and $c[1] == $l[1] ) {
+	push @new_version, $c[2] + 1;
+	}
+# The year and month do not match, so this is a new version that needs
+# a point release
+else {
+	push @new_version, '1';
+	}
+
+my $next_version = join '.', @new_version;
+say "New version will be $next_version";
 
 my $readme_details = get_readme::get_readme_stuff();
 say Dumper($readme_details);
