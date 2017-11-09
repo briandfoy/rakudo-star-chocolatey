@@ -46,6 +46,9 @@ TESTDIR environment variable:
 
 	env TESTDIR=cooked_templates prove
 
+Move the files from _cooked\_templates_ into the top level of the directory.
+Commit those files to the repo.
+
 Pack the distro:
 
 	choco pack
