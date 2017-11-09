@@ -47,7 +47,8 @@ TESTDIR environment variable:
 	env TESTDIR=cooked_templates prove
 
 Move the files from _cooked\_templates_ into the top level of the directory.
-Commit those files to the repo.
+Commit those files to the repo. Get rid of any previous _.nupkg_ files because
+the last step expects to find only one.
 
 Pack the distro:
 
