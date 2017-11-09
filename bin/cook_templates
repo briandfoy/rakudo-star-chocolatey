@@ -43,7 +43,7 @@ my $next_version = join '.', @new_version;
 say "New version will be $next_version";
 
 my $readme_details = get_readme::get_readme_stuff();
-say Dumper($readme_details);
+#say Dumper($readme_details);
 
 $readme_details->{markdown_xml_escaped} =
 	XML::Entities::numify( 'all', $readme_details->{markdown} );
