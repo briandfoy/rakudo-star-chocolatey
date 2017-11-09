@@ -41,6 +41,11 @@ This requires [Strawberry Perl](http://strawberryperl.com/):
 
 	prove
 
+If you want to test the files _cooked\_templates_ without moving them, set the
+TESTDIR environment variable:
+
+	env TESTDIR=cooked_templates prove
+
 Pack the distro:
 
 	choco pack
