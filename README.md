@@ -9,13 +9,29 @@ group of people that can respond to problems (or even just add new maintainers)
 if someone can't update the package. Someone with Windows or Powershell
 affinity would be nice.
 
-You can use the [bin/latest_rakudo_msi_details](bin/latest_rakudo_msi_details)
-program to fetch the latest details:
+You can use the [bin/cook_templates](bin/cook_templates) program to fetch the latest 
+details and prepare the files:
 
-	$ perl5.24 bin/latest_rakudo_msi_details
+	C:\> perl5.24 bin/cook_templates
 	{"sha256":"6654495651890ebcee98c0d33d392cdcdc18d8deb0412f6f7026cb730bf0bbed",
 	"url":"http:\/\/rakudo.org\/downloads\/star\/rakudo-star-2017.04.1-x86_64%20(JIT).msi",
 	"version":"2017.04.1"}
+
+There are some tests for the generated files:
+
+	C:\> prove
+
+The cooked templates are in _cooked\_templates_. Change into that directory.
+Pack and push the update:
+
+	C:\> cd cooked_templates
+	C:\> choco pack
+	C:\> choco push
+
+After that the package will go through automated testing and human review.
+That can take several days.
+
+## Gory details
 
 Use a minor version (third group of digits) to note the chocolatey attempt. If
 you have to reupload a package for a modified Rakudo Star release of the same
@@ -39,15 +55,15 @@ next step to automate the bit to accept the templates.
 You can test the distro, mostly to check the XML format and byte-order marks.
 This requires [Strawberry Perl](http://strawberryperl.com/):
 
-	prove
+	C:\> prove
 
 Pack the distro:
 
-	choco pack
+	C:\> choco pack
 
 Push the distro:
 
-	choco push
+	C:\> choco push
 
 After this, the chocolatey system will perform some automatic tests and
 then go into moderation. If everything goes well, in about three days it will
@@ -62,7 +78,7 @@ need, in reverse order of setup:
 You may need to set your [API key](https://github.com/chocolatey/choco/wiki/CommandsApiKey)
 first (probaby requires admin shell):
 
-	choco apikey -k <your key here> -s https://chocolatey.org/
+	C:\> choco apikey -k <your key here> -s https://chocolatey.org/
 
 Get your API key for your [chocolatey account page](https://chocolatey.org/account).
 They hide the API key in a big grey box near the bottom. You need to click
