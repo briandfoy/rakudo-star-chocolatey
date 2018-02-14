@@ -1,6 +1,6 @@
 #!perl -s
 use v5.24;
-use vars qw($v $dry);
+use vars qw($v $dry $U);
 use feature qw(signatures);
 no warnings qw(experimental::signatures);
 use open qw(:std :utf8);
@@ -11,13 +11,10 @@ use File::Path qw(make_path);
 use FindBin;
 use XML::Entities;
 
-require "$FindBin::Bin/current_package_details";
 require "$FindBin::Bin/latest_rakudo_msi_details";
 require "$FindBin::Bin/get_readme";
 
-my $current_details = current_package_details::get_package_details();
-say Dumper($current_details) if $v;
-
+$ENV{LATEST_RAKUDO_MSI_UNLINK} = 0 if $U;
 my $last_rakudo_details = latest_rakudo_msi_details::get_details();
 say Dumper($last_rakudo_details) if $v;
 

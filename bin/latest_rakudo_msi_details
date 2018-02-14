@@ -99,6 +99,11 @@ sub get_details (
 	my $version = extract_version( $latest_rakudo_url );
 
 	fetch_file( $latest_rakudo_url, $file );
+	unless( -e $file ) {
+		"File [$file] does not exist!";
+		}
+	say "Getting SHA-256 for [$file]";
+	
 	my $sha256 = get_sha256( $file );
 	unlink $file if $unlink;
 
@@ -155,9 +160,12 @@ The FILENAME defaults to F<latest.msi>.
 sub get_sha256 ( $file = 'latest.msi' ) {
 	state $rc = require Digest::SHA;
 
+	die "Tried to get SHA for [$file] but it does not exist\n"
+		unless -e $file;
+	
 	my $sha256 =
 		Digest::SHA->new( '256' )
-			->addfile( $file )
+			->addfile( $file, 'b' ) # read in binary mode: 
 			->hexdigest
 			;
 	}
@@ -174,7 +182,7 @@ The FILENAME defaults to F<latest.msi>.
 
 sub fetch_file ( $latest_url = get_latest_url(), $save_as = 'latest.msi' ) {
 	my $ua = mojo_ua();
-
+	say "Fetching $latest_url";
 	$ua->get( $latest_url )
 		->res->content->asset
 		->move_to( $save_as );
