@@ -1,5 +1,6 @@
-#!perl
+#!perl -s
 use v5.24;
+use vars qw($v $dry);
 use feature qw(signatures);
 no warnings qw(experimental::signatures);
 use open qw(:std :utf8);
@@ -15,19 +16,20 @@ require "$FindBin::Bin/latest_rakudo_msi_details";
 require "$FindBin::Bin/get_readme";
 
 my $current_details = current_package_details::get_package_details();
-say Dumper($current_details);
+say Dumper($current_details) if $v;
 
 my $last_rakudo_details = latest_rakudo_msi_details::get_details();
-say Dumper($last_rakudo_details);
+say Dumper($last_rakudo_details) if $v;
 
 my $readme_details = get_readme::get_readme_stuff();
-say Dumper($readme_details);
+say Dumper($readme_details) if $v;
 
 $readme_details->{markdown_xml_escaped} = XML::Entities::numify( 'all', $readme_details->{markdown} );
 
 my @templates = glob( 'templates/*.template templates/*/*.template' );
 
-make_path 'cooked_templates';
+my $cooked_dir = 'cooked_templates';
+make_path $cooked_dir;
 
 foreach my $template ( @templates ) {
 	say "Cooking template $template";
@@ -50,4 +52,31 @@ foreach my $template ( @templates ) {
 	close $fh;
 	}
 
+#######################################################################
+# Now do the choco stuff
+{
+my $choco = 'choco';
+
+say "Now we'll try to automatically pack and push the update.";
+say "This is a dry run and we won't push." if $dry;
+
+unless( chdir $cooked_dir ) {
+	die "Could not change to $cooked_dir: $!\n";
+	}
+{
+my $rc = system $choco, 'pack';
+say "result of pack was [$rc]";
+if( $rc ) { die "pack seems to have failed. Aborting.\n" }
+}
+
+say "About to push. Haven't tried this live yet!";
+unless( $dry ) {
+	my $rc = system $choco, 'push';
+	say "result of push was [$rc]";
+	if( $rc ) { die "push seems to have failed.\n" }
+	}
+else {
+	say "Not pushing because this is a dry run.";
+	}
+}
 __END__
