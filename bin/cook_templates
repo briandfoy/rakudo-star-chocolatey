@@ -11,6 +11,46 @@ use File::Path qw(make_path);
 use FindBin;
 use XML::Entities;
 
+=encoding utf8
+
+=head1 NAME
+
+cook_templates - fill in the details for the chocolatey files
+
+=head1 SYNOPSIS
+
+	% perl5.24 cook_templates
+
+	# extra debugging stuff
+	% perl5.24 cook_templates -v
+
+=head1 DESCRIPTION
+
+Fetch the latest Rakudo Star release for Perl 6, extract various details,
+and fill in the chocolatey files.
+
+=back
+
+=head1 SOURCE AVAILABILITY
+
+This module is in Github:
+
+	https://github.com/briandfoy/rakudo-star-chocolatey
+
+=head1 AUTHOR
+
+brian d foy, C<< <bdfoy@cpan.org> >>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright © 2017-2018, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the Artistic License 2. A LICENSE file should have accompanied
+this distribution.
+
+=cut
+
 require "$FindBin::Bin/latest_rakudo_msi_details";
 require "$FindBin::Bin/get_readme";
 
