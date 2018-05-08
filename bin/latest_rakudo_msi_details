@@ -96,14 +96,12 @@ sub get_details (
 	$file              = 'latest.msi',
 	$unlink            = $ENV{LATEST_RAKUDO_MSI_UNLINK} // 1,
 	) {
-	my $version = extract_version( $latest_rakudo_url );
-
-	fetch_file( $latest_rakudo_url, $file );
+	my $version = fetch_file( $latest_rakudo_url, $file );
 	unless( -e $file ) {
 		"File [$file] does not exist!";
 		}
 	say "Getting SHA-256 for [$file]";
-	
+
 	my $sha256 = get_sha256( $file );
 	unlink $file if $unlink;
 
@@ -116,36 +114,14 @@ sub get_details (
 	return \%hash
 	}
 
-=item * get_latest_url( URL, BASE_URL )
+=item * get_latest_url()
 
-Get the URL for the latest Rakudo distribution. In most cases, you
-should call this without any arguments.
-
-The URL defaults to L<http://rakudo.org/downloads/star/>.
-
-The BASE_URL defaults to L<https://rakudo.perl6.org/downloads/star/>.
-This site has SSL without a certificate error.
+In the latest version of the website this is a direct link.
 
 =cut
 
-sub get_latest_url (
-	$url      = Mojo::URL->new('http://rakudo.org/downloads/star/'),
-	$base_url = Mojo::URL->new('https://rakudo.perl6.org/downloads/star/'),
-	) {
-	my $ua = mojo_ua();
-
-	$base_url = Mojo::URL->new( $base_url );
-
-	my $latest_rakudo_url =
-		$ua->get( $url )
-			->res
-			->dom
-			->find( 'table[id=latest] td[class=file] a[class=ext-msi]' )
-			->map( attr => 'href' )
-			->grep( sub { ! /2016/ } )  # old 32-bit version
-			->map( sub { Mojo::URL->new($_)->base( $base_url )->to_abs } )
-			->first
-			;
+sub get_latest_url {
+	"https://rakudo.org/latest/star/win64";
 	}
 
 =item * get_sha256( FILENAME )
@@ -162,10 +138,10 @@ sub get_sha256 ( $file = 'latest.msi' ) {
 
 	die "Tried to get SHA for [$file] but it does not exist\n"
 		unless -e $file;
-	
+
 	my $sha256 =
 		Digest::SHA->new( '256' )
-			->addfile( $file, 'b' ) # read in binary mode: 
+			->addfile( $file, 'b' ) # read in binary mode:
 			->hexdigest
 			;
 	}
@@ -178,14 +154,29 @@ The URL defaults to the value returned by C<get_latest_url()>.
 
 The FILENAME defaults to F<latest.msi>.
 
+Returns the filename of the file from the Content-Dispostion header.
+
 =cut
 
 sub fetch_file ( $latest_url = get_latest_url(), $save_as = 'latest.msi' ) {
 	my $ua = mojo_ua();
 	say "Fetching $latest_url";
-	$ua->get( $latest_url )
-		->res->content->asset
+	my $tx = $ua->get( $latest_url );
+	unless( $tx->res->is_success ) {
+		say "Fetching $latest_url failed";
+		return;
+		}
+
+# Content-Disposition: attachment; filename="rakudo-star-2018.04-x86_64 (JIT).msi"
+	my $content_disposition = $tx->res->headers->header( 'Content-Disposition' );
+
+	my( $filename ) =  $content_disposition =~ m/ filename="(.*?)" /x;
+	say "Filename is $filename";
+	my $version = extract_version( $filename );
+	say "Version is $version";
+	$tx->res->content->asset
 		->move_to( $save_as );
+	return $version;
 	}
 
 =item * extract_version( URL )

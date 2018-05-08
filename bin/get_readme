@@ -63,7 +63,7 @@ sub run {
 
 sub get_readme_stuff () {
 	my $url = get_announce_url();
-	say $url;
+	say "Announcement URL is $url";
 
 	my $readme_html = extract_readme( $url );
 
@@ -89,11 +89,12 @@ sub get_readme_stuff () {
 =cut
 
 sub extract_readme ( $url ) {
+	say "Fetching $url";
 	my $string = '' . mojo_ua()
 		->get( $url )
 		->res
 		->dom
-		->find( 'div[class="entry-content"]' )
+		->find( 'div#content article' )
 		->first
 		->to_string;
 
@@ -113,14 +114,23 @@ Otherwise, this fetches the "announce" category and returns the first
 
 sub get_announce_url () {
 	return $ARGV[0] if @ARGV;
+	my $base_url = get_category_url();
 
-	mojo_ua()
-		->get( get_category_url() )
+	my $post_path = mojo_ua()
+		->get( $base_url )
 		->res
 		->dom
-		->find( 'h2[class="entry-title"] a[rel="bookmark"]' )
+		->find( 'div[class="article-list"] h2[class="blog-post-title"] a' )
 		->map( sub { $_->{href} } )
+		->grep( sub { m{/post/announce-rakudo-star-release} } )
 		->first;
+	say "post path is $post_path";
+
+	my $post_url = $base_url->clone->path( $post_path );
+
+	say "post url is $post_url";
+
+	$post_url;
 	}
 
 =item * get_category_url
@@ -130,7 +140,7 @@ posts should have the release announcement for the Rakudo * release.
 
 =cut
 
-sub get_category_url () { 'http://rakudo.org/category/announce/' }
+sub get_category_url () { Mojo::URL->new('https://rakudo.org/posts') }
 
 =item * mojo_ua()
 
