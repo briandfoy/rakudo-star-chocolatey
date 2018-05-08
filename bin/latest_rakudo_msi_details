@@ -158,6 +158,7 @@ The FILENAME defaults to F<latest.msi>.
 =cut
 
 sub get_sha256 ( $file = 'latest.msi' ) {
+	# or: certUtil -hashfile latest.msi SHA256
 	state $rc = require Digest::SHA;
 
 	die "Tried to get SHA for [$file] but it does not exist\n"
