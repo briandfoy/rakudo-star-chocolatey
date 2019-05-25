@@ -121,7 +121,21 @@ In the latest version of the website this is a direct link.
 =cut
 
 sub get_latest_url {
-	"https://rakudo.org/latest/star/win64";
+	state $url = Mojo::URL->new('https://rakudostar.com/files/star/');
+	my $ua = mojo_ua();
+	my $tx = $ua->get($url);
+	
+	my $file = $tx->result->dom
+		->find( 'a[data-name^=rakudo-star-20]' )
+		->map( attr => 'href' )
+		->uniq
+		->grep( sub { /\.msi\z/ } )
+		->sort( sub { $b <=> $a } )
+		->first;
+	say "File is $file";	
+	my $url = Mojo::URL->new( $file )->base( $url->clone )->to_abs;
+	say "URL is $url";
+	return $url;
 	}
 
 =item * get_sha256( FILENAME )
@@ -170,8 +184,7 @@ sub fetch_file ( $latest_url = get_latest_url(), $save_as = 'latest.msi' ) {
 
 # Content-Disposition: attachment; filename="rakudo-star-2018.04-x86_64 (JIT).msi"
 	my $content_disposition = $tx->res->headers->header( 'Content-Disposition' );
-
-	my( $filename ) =  $content_disposition =~ m/ filename="(.*?)" /x;
+    my( $filename ) =  $tx->req->url->path->parts->[-1];
 	say "Filename is $filename";
 	my $version = extract_version( $filename );
 	say "Version is $version";
@@ -193,6 +206,7 @@ The URL defaults to the value returned by C<get_latest_url()>.
 sub extract_version ( $url = get_latest_url() ) {
 	# rakudo-star-2017.04.1-x86_64%20(JIT).msi
 	my( $version ) = $url =~ /star-(.*?)-/;
+	#return '2019.03.01';
 	return $version;
 	}
 
@@ -223,7 +237,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2017-2018, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+Copyright © 2017-2019, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the Artistic License 2. A LICENSE file should have accompanied
