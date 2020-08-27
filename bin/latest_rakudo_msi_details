@@ -121,12 +121,12 @@ In the latest version of the website this is a direct link.
 =cut
 
 sub get_latest_url {
-	state $url = Mojo::URL->new('https://rakudostar.com/files/star/');
+	state $url = Mojo::URL->new('https://rakudo.org/downloads/star');
 	my $ua = mojo_ua();
 	my $tx = $ua->get($url);
 	
 	my $file = $tx->result->dom
-		->find( 'a[data-name^=rakudo-star-20]' )
+		->find( 'a.file-icon-windows' )
 		->map( attr => 'href' )
 		->uniq
 		->grep( sub { /\.msi\z/ } )

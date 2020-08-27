@@ -65,19 +65,18 @@ sub get_readme_stuff () {
 	my $url = get_announce_url();
 	say "Announcement URL is $url";
 
-	my $readme_html = extract_readme( $url );
+	
+	my $markdown    = <<'HERE';
+# Rakudo Star
 
-	state $rc = require HTML::FormatMarkdown;
-	my $markdown_error = '';
-	my $markdown    = eval { HTML::FormatMarkdown
-		->format_string( $readme_html );
-		} or $markdown_error = $@;
+This is Rakudo Star, an enhanced distribution of Rakudo for the Raku language.
+HERE
 
 	my %hash = (
-		url      => $url,
-		html     => $readme_html,
+		url      => undef,
+		html     => undef,
 		markdown => $markdown,
-		error    => $markdown_error,
+		error    => undef,
 		);
 
 	return \%hash;
