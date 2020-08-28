@@ -44,7 +44,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <licenseUrl>https://github.com/rakudo/star/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectSourceUrl>https://github.com/rakudo/star/blob/master/LICENSE</projectSourceUrl>
-    <docsUrl>https://doc.raku.org/</docsUrl>
+    <docsUrl>https://docs.raku.org/</docsUrl>
     <mailingListUrl>https://raku.org/community</mailingListUrl>
     <!--<bugTrackerUrl></bugTrackerUrl>-->
     <tags>rakudostar admin</tags>
