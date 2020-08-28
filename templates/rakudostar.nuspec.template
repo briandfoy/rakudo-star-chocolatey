@@ -44,14 +44,14 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <licenseUrl>https://github.com/rakudo/star/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectSourceUrl>https://github.com/rakudo/star/blob/master/LICENSE</projectSourceUrl>
-    <docsUrl>https://doc.perl6.org/</docsUrl>
-    <mailingListUrl>https://perl6.org/archive/lists/</mailingListUrl>
+    <docsUrl>https://doc.raku.org/</docsUrl>
+    <mailingListUrl>https://raku.org/community</mailingListUrl>
     <!--<bugTrackerUrl></bugTrackerUrl>-->
     <tags>rakudostar admin</tags>
-    <summary>This is Rakudo Star, a useful, usable Perl 6 distribution</summary>
-    <description>A useful and usable production distribution of Perl 6
+    <summary>This is Rakudo Star, a useful, usable Raku distribution</summary>
+    <description>A useful and usable production distribution of Raku
 
-The Rakudo Star distribution (aka Rakudo *) combines a Rakudo Perl 6 compiler with additional resources including a selection of modules.
+The Rakudo Star distribution (aka Rakudo *) combines a Rakudo compiler with additional resources including a selection of modules.
 
 This chocolatey package defaults to the MoarVM.</description>
     <releaseNotes># Announce: Rakudo Star Release %%VERSION%%
