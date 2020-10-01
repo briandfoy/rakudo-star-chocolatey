@@ -188,8 +188,7 @@ sub fetch_file ( $latest_url = get_latest_url(), $save_as = 'latest.msi' ) {
 	say "Filename is $filename";
 	my $version = extract_version( $filename );
 	say "Version is $version";
-	$tx->res->content->asset
-		->move_to( $save_as );
+	$tx->res->save_to( $save_as );
 	return $version;
 	}
 
