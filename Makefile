@@ -12,5 +12,5 @@ push: ## push the package to chocolatey
 
 .PHONY: clean
 clean: ## remove the cooked templates
-	del cooked_templates\*.nupkg cooked_templates\*.nuspec
+	- del cooked_templates\*.nupkg cooked_templates\*.nuspec
 	
